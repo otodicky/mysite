@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My First Page</title>
+  <style>
+    input {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+li {
+  background-color: white;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+li button {
+  background-color: #d32f2f;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+    button {
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+    }
+    header {
+  text-align: center;
+  padding: 20px 0;
+}
+main {
+  max-width: 800px;
+  margin: 0 auto;
+}
+section {
+  margin-bottom: 40px;
+}
+footer {
+  background-color: #333;
+  text-align: center;
+  padding: 10px;
+  margin-top: 40px;
+}
+footer p {
+  color: white;
+  font-size: 14px;
+}
+    body {
+      background-color: darkgray;
+      font-family: sans-serif, Arial, Helvetica;
+      text-align: left;
+    }
+    h1 {
+      color: #dce5f0;
+    }
+    p {
+      font-size: 20px;
+      color: #333;
+    }
+    img {
+  border-radius: 15px;
+  max-width: 100%;
+  height: auto;
+    }
+    
+    a {
+      display: inline-block;
+      background-color: #1a73e8;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin: 20px 0;
+    }
+    a:hover {
+      background-color: #0d47a1;
+    }
+  .row {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+.box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 100px;
+  text-align: center;
+}
+    @media (min-width: 600px) {
+  body {
+    padding: 40px 80px;
+  }
+  h1 {
+    font-size: 48px;
+  }
+  .box {
+    width: 160px;
+  }
+    }
+</style>
+</head>
+<body>
+  <h1>Hello, world!</h1>
+  <p>This is my first web page.</p>
+  <a href="https://www.google.org">Visit Google</a>
+  <br><br>
+  <img src="https://picsum.photos/350" alt="A random photo">
+<div class="row">
+  <div class="box">One</div>
+  <div class="box">Two</div>
+  <div class="box">Three</div>
+  <div class="box">Four</div>
+</div>
+  <header>
+  <h1>Hello, world!</h1>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#gallery">Gallery</a>
+  </nav>
+</header>
+
+<main>
+  <section id="todo">
+  <h2>My To-Do List</h2>
+  <input type="text" id="taskInput" placeholder="Add a task">
+  <button id="addBtn">Add</button>
+  <ul id="taskList"></ul>
+  </section>
+  <section id="about">
+    <p>This is my first web page.</p>
+    <a href="https://www.google.org">Visit Google</a>
+  </section>
+
+  <section id="gallery">
+    <img src="https://picsum.photos/350" alt="A random photo">
+    <div class="row">
+      <div class="box">One</div>
+      <div class="box">Two</div>
+      <div class="box">Three</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>© 2026 My First Page</p>
+</footer>
+  <button id="colorBtn">Change background</button>
+<p id="message">Tap the button!</p>
+</body>
+  <script>
+  const button = document.getElementById("colorBtn");
+  const message = document.getElementById("message");
+  let count = 0;
+
+  const colors = ["lightblue", "pink", "lightgreen", "khaki", "plum", "darkgray","orange","coffee"];
+
+  button.addEventListener("click", function () {
+    count = count + 1;
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    const newColor = colors[randomIndex];
+    document.body.style.backgroundColor = newColor;
+    message.textContent = "Color: " + newColor + " (taps: " + count + ")";
+  });const taskInput = document.getElementById("taskInput");
+const addBtn = document.getElementById("addBtn");
+const taskList = document.getElementById("taskList");
+
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+function saveTasks() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function renderTasks() {
+  taskList.innerHTML = "";
+  tasks.forEach(function (task, index) {
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    span.textContent = task;
+
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "Delete";
+    delBtn.addEventListener("click", function () {
+      tasks.splice(index, 1);
+      saveTasks();
+      renderTasks();
+    });
+
+    li.appendChild(span);
+    li.appendChild(delBtn);
+    taskList.appendChild(li);
+  });
+}
+
+addBtn.addEventListener("click", function () {
+  const text = taskInput.value.trim();
+  if (text === "") return;
+  tasks.push(text);
+  saveTasks();
+  renderTasks();
+  taskInput.value = "";
+});
+
+renderTasks();
+  
+
+addBtn.addEventListener("click", function () {
+  const text = taskInput.value.trim();
+  if (text === "") return;
+
+  const li = document.createElement("li");
+  const span = document.createElement("span");
+  span.textContent = text;
+
+  const delBtn = document.createElement("button");
+  delBtn.textContent = "Delete";
+  delBtn.addEventListener("click", function () {
+    li.remove();
+  });
+
+  li.appendChild(span);
+  li.appendChild(delBtn);
+  taskList.appendChild(li);
+  taskInput.value = "";
+});
+  </script>
+</html>
